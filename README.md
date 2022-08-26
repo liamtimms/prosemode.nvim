@@ -67,7 +67,7 @@ You can adjust these as desired for your setup or call the command directly. (I 
 
 ## Comparison to alternatives
 
-- [vimpencil](https://github.com/preservim/vim-pencil) a vimscript plugin with many, many additional features including further changes to keymaps, new conceal settings, multiple wrap modes, changes to insert mode undo history, autoformating, and more. `prosemode.nvim` is not indended as a direct competetor but a simpler alternative with no need of additional configuration.
+- [vimpencil](https://github.com/preservim/vim-pencil) a vimscript plugin with many, many additional features including further changes to keymaps, new conceal settings, multiple wrap modes, changes to insert mode undo history, autoformating, and more. `prosemode.nvim` is not intended as a direct competitor but a simpler alternative with no need for additional configuration.
 
 ## credit
 
