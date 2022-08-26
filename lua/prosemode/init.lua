@@ -1,6 +1,6 @@
 local M = {}
-local bkeymap = vim.api.nvim_buf_set_keymap
-local bdelete = vim.api.nvim_buf_del_keymap
+local keymap = vim.api.nvim_set_keymap
+local keydelete = vim.api.nvim_del_keymap
 local opt = vim.opt
 local cmd = vim.api.nvim_create_user_command
 
@@ -41,18 +41,18 @@ M._key_stack = {}
 
 M.push_keys = function(name, mode, mappings)
 	-- add keymappings for the mode to stack
-	local bmaps = vim.api.nvim_buf_get_keymap(0, mode)
+	local maps = vim.api.nvim_get_keymap(mode)
 
 	local existing_maps = {}
 	for lhs, _ in pairs(mappings) do
-		local existing = find_mapping(bmaps, lhs)
+		local existing = find_mapping(maps, lhs)
 		if existing then
 			existing_maps[lhs] = existing
 		end
 	end
 
 	for lhs, rhs in pairs(mappings) do
-		bkeymap(0, mode, lhs, rhs, { noremap = true, silent = true })
+		keymap(mode, lhs, rhs, { noremap = true, silent = true })
 	end
 
 	M._key_stack[name] = M._key_stack[name] or {}
@@ -75,10 +75,10 @@ M.pop_keys = function(name, mode)
 			local og_mapping = state.existing[lhs]
 
 			-- TODO: Handle the options from the table
-			bkeymap(0, mode, lhs, og_mapping.rhs)
+			keymap(mode, lhs, og_mapping.rhs)
 		else
 			-- Handled mappings that didn't exist
-			bdelete(0, mode, lhs)
+			keydelete(mode, lhs)
 		end
 	end
 end
@@ -112,7 +112,7 @@ M.ProseOn = function()
 	opt.wrap = true
 	opt.number = false
 	opt.relativenumber = false
-	opt.foldcolumn = 2
+	opt.foldcolumn = "2"
 
 	vim.g.prose_mode = true
 end
