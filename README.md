@@ -44,7 +44,7 @@ The primary command to use is:
 :ProseToggle
 ```
 
-This will switch between having the mode on or off. It will save and restore options and keymaps when switching states. _Note: some of the options it changes are vim window level, so strange behavior_ may occur when toggling the mode in different windows (splits) within the same `nvim` instance._ I plan to address this soon.
+This will switch between having the mode on or off. It will save and restore options and keymaps when switching states. _Note: some of the options it changes are vim window level, so strange behavior may occur when toggling the mode in different windows (splits) within the same `nvim` instance._ I plan to address this soon.
 
 You can bind the command to a key in your config if desired. For example:
 
