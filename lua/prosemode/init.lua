@@ -121,10 +121,12 @@ end
 
 M.ProseOff = function()
 	-- remove the keymappings we changed
-	M.pop_keys("prose", "n")
+	if next(M._key_stack["prose"]) ~= nil then
+		M.pop_keys("prose", "n")
+	end
 
 	-- restore the original settings if they were stored
-	if not next(M._opt_stack) == nil then
+	if next(M._opt_stack) ~= nil then
 		opt.linebreak = M._opt_stack["linebreak"]
 		opt.wrap = M._opt_stack["wrap"]
 		opt.number = M._opt_stack["number"]
