@@ -7,20 +7,6 @@ local cmd = vim.api.nvim_create_user_command
 -- lots of reference to https://www.youtube.com/watch?v=n4Lp4cV8YR0&t=1574s
 -- please go watch the tutorial for more info
 
-local function setup_commands()
-	-- setup nvim commands user can call
-	-- based on bufferline
-	cmd("ProseToggle", function()
-		M.ProseToggle()
-	end, {})
-	cmd("ProseOn", function()
-		M.ProseOn()
-	end, {})
-	cmd("ProseOff", function()
-		M.ProseOff()
-	end, {})
-end
-
 local find_mapping = function(maps, lhs)
 	--    iteratres over ONLY numeric keys in a table
 	--    order IS guaranteed
@@ -75,7 +61,7 @@ M.pop_keys = function(name, mode)
 			local og_mapping = state.existing[lhs]
 
 			-- TODO: Handle the options from the table
-			keymap(mode, lhs, og_mapping.rhs)
+			keymap(mode, lhs, og_mapping.rhs, { noremap = true, silent = true })
 		else
 			-- Handled mappings that didn't exist
 			keydelete(mode, lhs)
@@ -143,6 +129,20 @@ M.ProseToggle = function()
 	else
 		M.ProseOn()
 	end
+end
+
+local function setup_commands()
+	-- setup nvim commands user can call
+	-- based on bufferline
+	cmd("ProseToggle", function()
+		M.ProseToggle()
+	end, {})
+	cmd("ProseOn", function()
+		M.ProseOn()
+	end, {})
+	cmd("ProseOff", function()
+		M.ProseOff()
+	end, {})
 end
 
 return M
