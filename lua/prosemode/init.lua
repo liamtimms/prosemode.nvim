@@ -68,14 +68,16 @@ M.pop_keys = function(name, mode)
 end
 
 M.ProseOn = function()
-	M.push_keys("prose", "n", {
-		["j"] = "gj",
-		["k"] = "gk",
-		["0"] = "g0",
-		["$"] = "g$",
-		["A"] = "g$a",
-		["I"] = "g0i",
-	})
+	if not M._key_stack["prose"] then
+		M.push_keys("prose", "n", {
+			["j"] = "gj",
+			["k"] = "gk",
+			["0"] = "g0",
+			["$"] = "g$",
+			["A"] = "g$a",
+			["I"] = "g0i",
+		})
+	end
 
 	-- store the orignal settings (only if they are not already set)
 	if next(M._opt_stack) == nil then
@@ -100,7 +102,7 @@ end
 
 M.ProseOff = function()
 	-- remove the keymappings we changed
-	if next(M._key_stack["prose"]) ~= nil then
+	if M._key_stack["prose"] then
 		M.pop_keys("prose", "n")
 	end
 
