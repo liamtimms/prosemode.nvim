@@ -98,14 +98,16 @@ M.ProseOn = function()
 		["I"] = "g0i",
 	})
 
-	-- store the orignal settings
-	M._opt_stack = {
-		["linebreak"] = opt.linebreak:get(),
-		["wrap"] = opt.wrap:get(),
-		["number"] = opt.number:get(),
-		["relativenumber"] = opt.relativenumber:get(),
-		["foldcolumn"] = opt.foldcolumn:get(),
-	}
+	-- store the orignal settings (only if they are not already set)
+	if next(M._opt_stack) == nil then
+		M._opt_stack = {
+			["linebreak"] = opt.linebreak:get(),
+			["wrap"] = opt.wrap:get(),
+			["number"] = opt.number:get(),
+			["relativenumber"] = opt.relativenumber:get(),
+			["foldcolumn"] = opt.foldcolumn:get(),
+		}
+	end
 
 	-- change the current settings
 	opt.linebreak = true
@@ -121,12 +123,14 @@ M.ProseOff = function()
 	-- remove the keymappings we changed
 	M.pop_keys("prose", "n")
 
-	-- restore the original settings
-	opt.linebreak = M._opt_stack["linebreak"]
-	opt.wrap = M._opt_stack["wrap"]
-	opt.number = M._opt_stack["number"]
-	opt.relativenumber = M._opt_stack["relativenumber"]
-	opt.foldcolumn = M._opt_stack["foldcolumn"]
+	-- restore the original settings if they were stored
+	if not next(M._opt_stack) == nil then
+		opt.linebreak = M._opt_stack["linebreak"]
+		opt.wrap = M._opt_stack["wrap"]
+		opt.number = M._opt_stack["number"]
+		opt.relativenumber = M._opt_stack["relativenumber"]
+		opt.foldcolumn = M._opt_stack["foldcolumn"]
+	end
 
 	vim.g.prose_mode = false
 end
