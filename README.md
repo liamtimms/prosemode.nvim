@@ -82,7 +82,9 @@ Adjust these as desired for your setup or call the command(s) directly. (Note: I
 
 ## Comparison to alternatives
 
-- [vimpencil](https://github.com/preservim/vim-pencil) a vimscript plugin with many, many additional features including further changes to keymaps, new conceal settings, multiple wrap modes, changes to insert mode undo history, autoformating, and more. **prosemode.nvim** is not intended as a direct competitor but rather a simpler alternative with no need for additional configuration.
+- [vimpencil](https://github.com/preservim/vim-pencil): a vimscript plugin with many, many additional features including further changes to keymaps, new conceal settings, multiple wrap modes, changes to insert mode undo history, autoformating, and more. **prosemode.nvim** is not intended as a direct competitor but rather a simpler alternative with no need for additional configuration.
+
+- [vim-pandoc](https://github.com/vim-pandoc/vim-pandoc): a mixed vim-script and python plugin that aims to provide a WYSIWYG style editing experience in `vim` providing microsoft word style shortcuts, pandoc related autocompletes, "a comfortable environment for editing prose," support folding, table of contents generation, and more. **prosemode.nvim** focuses only on a small number of very helpful changes to the environment when editing prose and is completely agnotistic to the type of document, the folding settings, how the user chooses to run external programs like `pandoc` (I recommend using `entr` to call `pandoc` when your source files change if working with pandoc), or syntax highlighting settings (it can be combined with the related [vim-pandoc-syntax](https://github.com/vim-pandoc/vim-pandoc-syntax) plugin to produce a more minimal pandoc powered writing environment).
 
 ## credit
 
