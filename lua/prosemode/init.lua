@@ -29,11 +29,16 @@ M.push_keys = function(name, mode, mappings)
 	-- add keymappings for the mode to stack
 	local maps = vim.api.nvim_get_keymap(mode)
 
+	-- store existing mappings
+	local state = M._key_stack[name][mode]
 	local existing_maps = {}
 	for lhs, _ in pairs(mappings) do
-		local existing = find_mapping(maps, lhs)
-		if existing then
-			existing_maps[lhs] = existing
+		-- avoid overwriting if called again
+		if not state.existing[lhs] then
+			local existing = find_mapping(maps, lhs)
+			if existing then
+				existing_maps[lhs] = existing
+			end
 		end
 	end
 
@@ -68,16 +73,14 @@ M.pop_keys = function(name, mode)
 end
 
 M.ProseOn = function()
-	if not M._key_stack["prose"] then
-		M.push_keys("prose", "n", {
-			["j"] = "gj",
-			["k"] = "gk",
-			["0"] = "g0",
-			["$"] = "g$",
-			["A"] = "g$a",
-			["I"] = "g0i",
-		})
-	end
+	M.push_keys("prose", "n", {
+		["j"] = "gj",
+		["k"] = "gk",
+		["0"] = "g0",
+		["$"] = "g$",
+		["A"] = "g$a",
+		["I"] = "g0i",
+	})
 
 	-- store the orignal settings (only if they are not already set)
 	if next(M._opt_stack) == nil then
@@ -101,21 +104,21 @@ M.ProseOn = function()
 end
 
 M.ProseOff = function()
-	-- remove the keymappings we changed
-	if M._key_stack["prose"] then
+	if vim.g.prose_mode then
+		-- remove the keymappings we changed
 		M.pop_keys("prose", "n")
-	end
 
-	-- restore the original settings if they were stored
-	if next(M._opt_stack) ~= nil then
-		opt.linebreak = M._opt_stack["linebreak"]
-		opt.wrap = M._opt_stack["wrap"]
-		opt.number = M._opt_stack["number"]
-		opt.relativenumber = M._opt_stack["relativenumber"]
-		opt.foldcolumn = M._opt_stack["foldcolumn"]
-	end
+		-- restore the original settings if they were stored
+		if next(M._opt_stack) ~= nil then
+			opt.linebreak = M._opt_stack["linebreak"]
+			opt.wrap = M._opt_stack["wrap"]
+			opt.number = M._opt_stack["number"]
+			opt.relativenumber = M._opt_stack["relativenumber"]
+			opt.foldcolumn = M._opt_stack["foldcolumn"]
+		end
 
-	vim.g.prose_mode = false
+		vim.g.prose_mode = false
+	end
 end
 
 M.ProseToggle = function()
