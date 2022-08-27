@@ -1,6 +1,6 @@
-# prosemode.nvim
+# 📝 prosemode.nvim
 
-📝 A dead simple, pure lua, neovim plugin for writing prose. `prosemode.nvim` introduces a "prose mode" (toggled with `:ProseToggle`). The mode applies the minimal number of changes to keymappings and options with the biggest impact on the experience of writing prose in `nvim`. It minimizes potential conflicts with other plugins _without_ requiring plugin-level configuration options.
+A dead simple, pure lua, neovim plugin for writing prose. `prosemode.nvim` introduces a "prose mode" (toggled with `:ProseToggle`). The mode applies the minimal number of changes to keymappings and options with the biggest impact on the experience of writing prose in `nvim`. It minimizes potential conflicts with other plugins _without_ requiring plugin-level configuration options.
 
 This plugin does not and will never touch any keymapping or options until toggled and will always leave your highlight groups, file type settings, conceal setting, formatting, etc. alone.
 
@@ -44,15 +44,19 @@ The primary command to use is:
 :ProseToggle
 ```
 
-This will switch between having the mode on or off. It will save and restore options and keymaps when switching states. _Note: some of the options it changes are vim window level, so strange behavior may occur when toggling the mode in different windows (splits) within the same `nvim` instance._ I plan to address this soon.
+This will switch between having the mode on or off. _Note: some of the options it changes are vim window level, so strange behavior may occur when toggling the mode from different windows within the same `nvim` instance._ To deal with this, you can call `:ProseOn` or `:ProseOff` to apply the desired settings to the current window if it got left behind by a toggle.[^1]
 
-You can bind the command to a key in your config if desired. For example:
+[^1] I plan to further reduce this friction in later updates using autocommands.
+
+You can bind the commands to a key in your config if desired. For example:
 
 ```lua
 local keymap = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
-keymap("n", "<leader>pm", ":ProseToggle<CR>", opts)
+keymap("n", "<leader>pt", ":ProseToggle<CR>", opts)
+keymap("n", "<leader>pm", ":ProseOn<CR>", opts)
+keymap("n", "<leader>po", ":ProseOff<CR>", opts)
 
 -- additional keymaps here
 ```
@@ -60,10 +64,12 @@ keymap("n", "<leader>pm", ":ProseToggle<CR>", opts)
 In vimscript one can use:
 
 ```vim
-nnoremap <silent> <leader>pm :ProseToggle<CR>
+nnoremap <silent> <leader>pt :ProseToggle<CR>
+nnoremap <silent> <leader>pm :ProseOn<CR>
+nnoremap <silent> <leader>po :ProseOff<CR>
 ```
 
-You can adjust these as desired for your setup or call the command directly. (I recommend using local variables in lua to take advantage of the language and make your config more readable at the cost of some boilerplate verbosity).
+Adjust these as desired for your setup or call the command(s) directly. (Note: I recommend using local variables as aliases in lua to take advantage of the language features and make your config more readable).
 
 ## Comparison to alternatives
 
