@@ -33,11 +33,9 @@ M.push_keys = function(name, mode, mappings)
 	local existing_maps = {}
 	for lhs, _ in pairs(mappings) do
 		-- avoid overwriting if called again
-		if M._key_stack[name][mode].existing[lhs] ~= nil then
-			local existing = find_mapping(maps, lhs)
-			if existing then
-				existing_maps[lhs] = existing
-			end
+		local existing = find_mapping(maps, lhs)
+		if existing then
+			existing_maps[lhs] = existing
 		end
 	end
 
@@ -72,16 +70,19 @@ M.pop_keys = function(name, mode)
 end
 
 M.ProseOn = function()
-	M.push_keys("prose", "n", {
-		["j"] = "gj",
-		["k"] = "gk",
-		["0"] = "g0",
-		["$"] = "g$",
-		["A"] = "g$a",
-		["I"] = "g0i",
-	})
+	-- only push if not already pushed
+	if M._key_stack["prose"] == nil then
+		M.push_keys("prose", "n", {
+			["j"] = "gj",
+			["k"] = "gk",
+			["0"] = "g0",
+			["$"] = "g$",
+			["A"] = "g$a",
+			["I"] = "g0i",
+		})
+	end
 
-	-- store the orignal settings (only if they are not already set)
+	-- store the existing settings if cache is empty
 	if next(M._opt_stack) == nil then
 		M._opt_stack = {
 			["linebreak"] = opt.linebreak:get(),
