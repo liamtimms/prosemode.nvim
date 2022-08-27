@@ -34,7 +34,7 @@ M.push_keys = function(name, mode, mappings)
 	local existing_maps = {}
 	for lhs, _ in pairs(mappings) do
 		-- avoid overwriting if called again
-		if not state.existing[lhs] then
+		if state.existing[lhs] ~= nil then
 			local existing = find_mapping(maps, lhs)
 			if existing then
 				existing_maps[lhs] = existing
