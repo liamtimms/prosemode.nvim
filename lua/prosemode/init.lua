@@ -30,11 +30,10 @@ M.push_keys = function(name, mode, mappings)
 	local maps = vim.api.nvim_get_keymap(mode)
 
 	-- store existing mappings
-	local state = M._key_stack[name][mode]
 	local existing_maps = {}
 	for lhs, _ in pairs(mappings) do
 		-- avoid overwriting if called again
-		if state.existing[lhs] ~= nil then
+		if M._key_stack[name][mode].existing[lhs] ~= nil then
 			local existing = find_mapping(maps, lhs)
 			if existing then
 				existing_maps[lhs] = existing
