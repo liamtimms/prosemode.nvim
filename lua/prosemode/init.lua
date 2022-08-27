@@ -4,6 +4,14 @@ local keydelete = vim.api.nvim_del_keymap
 local opt = vim.opt
 local cmd = vim.api.nvim_create_user_command
 
+M._key_stack = {}
+M._opt_stack = {}
+
+M._clear = function()
+	M._key_stack = {}
+	M._opt_stack = {}
+end
+
 -- lots of reference to https://www.youtube.com/watch?v=n4Lp4cV8YR0&t=1574s
 -- please go watch the tutorial for more info
 
@@ -16,14 +24,6 @@ local find_mapping = function(maps, lhs)
 		end
 	end
 end
-
-M.setup = function()
-	-- create global variable to store state of prose mode
-	vim.g.prose_mode = false
-	setup_commands()
-end
-
-M._key_stack = {}
 
 M.push_keys = function(name, mode, mappings)
 	-- add keymappings for the mode to stack
@@ -49,8 +49,6 @@ M.push_keys = function(name, mode, mappings)
 	}
 end
 
-M._opt_stack = {}
-
 M.pop_keys = function(name, mode)
 	local state = M._key_stack[name][mode]
 	M._key_stack[name][mode] = nil
@@ -67,11 +65,6 @@ M.pop_keys = function(name, mode)
 			keydelete(mode, lhs)
 		end
 	end
-end
-
-M._clear = function()
-	M._key_stack = {}
-	M._opt_stack = {}
 end
 
 M.ProseOn = function()
@@ -143,6 +136,12 @@ local function setup_commands()
 	cmd("ProseOff", function()
 		M.ProseOff()
 	end, {})
+end
+
+M.setup = function()
+	-- create global variable to store state of prose mode
+	vim.g.prose_mode = false
+	setup_commands()
 end
 
 return M
