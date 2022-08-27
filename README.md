@@ -1,5 +1,11 @@
 # 📝 prosemode.nvim
 
+
+
+https://user-images.githubusercontent.com/14281621/187013121-37cef6b2-4c56-4ed4-b572-4b1a2652406b.mp4
+
+
+
 A dead simple, pure lua, neovim plugin for writing prose. `prosemode.nvim` introduces a "prose mode" (toggled with `:ProseToggle`). The mode applies the minimal number of changes to keymappings and options with the biggest impact on the experience of writing prose in `nvim`. It minimizes potential conflicts with other plugins _without_ requiring plugin-level configuration options.
 
 This plugin does not and will never touch any keymapping or options until toggled and will always leave your highlight groups, file type settings, conceal setting, formatting, etc. alone.
